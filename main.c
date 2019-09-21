@@ -26,6 +26,21 @@ uint32_t COLORS[] = {
   0x333c57ff,
 };
 
+#define TICK_INTERVAL 33
+
+static Uint32 next_time;
+
+uint32_t time_left()
+{
+  uint32_t now;
+
+  now = SDL_GetTicks();
+  if(next_time <= now)
+    return 0;
+  else
+    return next_time - now;
+}
+
 typedef struct _Core {
   SDL_Window *window;
   SDL_Renderer *renderer;
@@ -35,6 +50,7 @@ typedef struct _Core {
 
 int core_run(void (*on_update)(uint32_t *)) {
   Core core;
+  uint32_t next_time;
 
   if(SDL_Init(SDL_INIT_VIDEO) != 0) {
     fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
@@ -74,6 +90,8 @@ int core_run(void (*on_update)(uint32_t *)) {
 
   memset(core.pixels, 255, SCREEN_SIZE * sizeof(uint32_t));
 
+  next_time = SDL_GetTicks() + TICK_INTERVAL;
+
   SDL_Event e;
   bool quit = false;
   while (!quit){
@@ -104,6 +122,9 @@ int core_run(void (*on_update)(uint32_t *)) {
     }
 
     SDL_RenderPresent(core.renderer);
+
+    SDL_Delay(time_left());
+    next_time += TICK_INTERVAL;
   }
 
   SDL_DestroyTexture(core.texture);
@@ -125,7 +146,7 @@ void update(uint32_t *pixels) {
   for (int i = 0; i < 1000; i++) {
     int x = rand() % SCREEN_WIDTH;
     int y = rand() % SCREEN_HEIGHT;
-    int c = (int)(x / 16.0 + y / 32.0 + t) % 6 + 8;
+    int c = (int)(x / 16.0 + y / 32.0 + t) % 6 + 11;
 
     set_pixel(pixels, x, y, c);
   }
