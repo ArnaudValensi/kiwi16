@@ -3,11 +3,15 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+#define SCREEN_SIZE SCREEN_WIDTH * SCREEN_HEIGHT
+
 typedef struct _Core {
   SDL_Window *window;
   SDL_Renderer *renderer;
   SDL_Texture *texture;
-  uint32_t *pixels;
+  uint32_t pixels[SCREEN_SIZE];
 } Core;
 
 int main()
@@ -49,9 +53,7 @@ int main()
     return 1;
   }
 
-  core.pixels = (uint32_t *)malloc(640 * 480 * sizeof(uint32_t));
-
-  memset(core.pixels, 255, 640 * 480 * sizeof(uint32_t));
+  memset(core.pixels, 255, SCREEN_SIZE * sizeof(uint32_t));
 
   SDL_Event e;
   bool quit = false;
@@ -83,7 +85,6 @@ int main()
     SDL_RenderPresent(core.renderer);
   }
 
-  free(core.pixels);
   SDL_DestroyTexture(core.texture);
   SDL_DestroyRenderer(core.renderer);
   SDL_DestroyWindow(core.window);
