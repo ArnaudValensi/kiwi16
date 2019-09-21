@@ -3,9 +3,28 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 249
+#define SCREEN_HEIGHT 136
 #define SCREEN_SIZE SCREEN_WIDTH * SCREEN_HEIGHT
+
+uint32_t COLORS[] = {
+  0x1a1c2cff,
+  0x5d275dff,
+  0xb13e53ff,
+  0xef7d57ff,
+  0xffcd75ff,
+  0xa7f070ff,
+  0x38b764ff,
+  0x257179ff,
+  0x29366fff,
+  0x3b5dc9ff,
+  0x41a6f6ff,
+  0x73eff7ff,
+  0xf4f4f4ff,
+  0x94b0c2ff,
+  0x566c86ff,
+  0x333c57ff,
+};
 
 typedef struct _Core {
   SDL_Window *window;
@@ -14,8 +33,7 @@ typedef struct _Core {
   uint32_t pixels[SCREEN_SIZE];
 } Core;
 
-int main()
-{
+int core_run(void (*on_update)(uint32_t *)) {
   Core core;
 
   if(SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -26,7 +44,8 @@ int main()
   core.window = SDL_CreateWindow("My application",
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
-      640, 480,
+      SCREEN_WIDTH,
+      SCREEN_HEIGHT,
       0);
 
   if(!core.window) {
@@ -42,11 +61,11 @@ int main()
   }
 
   core.texture = SDL_CreateTexture(
-      core.renderer, 
-      SDL_PIXELFORMAT_ARGB8888,
+      core.renderer,
+      SDL_PIXELFORMAT_RGBA8888,
       SDL_TEXTUREACCESS_STATIC,
-      640, 
-      480);
+      SCREEN_WIDTH, 
+      SCREEN_HEIGHT);
 
   if(!core.texture) {
     fprintf(stderr, "SDL_CreateTexture failed: %s\n", SDL_GetError());
@@ -58,7 +77,9 @@ int main()
   SDL_Event e;
   bool quit = false;
   while (!quit){
-    SDL_UpdateTexture(core.texture, NULL, core.pixels, 640 * sizeof(uint32_t));
+    on_update(core.pixels);
+
+    SDL_UpdateTexture(core.texture, NULL, core.pixels, SCREEN_WIDTH * sizeof(uint32_t));
 
     while (SDL_PollEvent(&e)){
       if (e.type == SDL_QUIT){
@@ -89,6 +110,20 @@ int main()
   SDL_DestroyRenderer(core.renderer);
   SDL_DestroyWindow(core.window);
   SDL_Quit();
+
   return 0;
+}
+
+void set_pixel(uint32_t *pixels, int x, int y, int color) {
+  pixels[y * SCREEN_WIDTH + x] = COLORS[color];
+}
+
+void update(uint32_t *pixels) {
+  set_pixel(pixels, 10, 20, 1);
+}
+
+int main()
+{
+  return core_run(update);
 }
 
