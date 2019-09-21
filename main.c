@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define SCREEN_WIDTH 249
-#define SCREEN_HEIGHT 136
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 128
 #define SCREEN_SIZE SCREEN_WIDTH * SCREEN_HEIGHT
 
 uint32_t COLORS[] = {
@@ -118,8 +118,17 @@ void set_pixel(uint32_t *pixels, int x, int y, int color) {
   pixels[y * SCREEN_WIDTH + x] = COLORS[color];
 }
 
+float t = 0;
 void update(uint32_t *pixels) {
-  set_pixel(pixels, 10, 20, 1);
+  t += 0.02;
+
+  for (int i = 0; i < 1000; i++) {
+    int x = rand() % SCREEN_WIDTH;
+    int y = rand() % SCREEN_HEIGHT;
+    int c = (int)(x / 16.0 + y / 32.0 + t) % 6 + 8;
+
+    set_pixel(pixels, x, y, c);
+  }
 }
 
 int main()
