@@ -3,6 +3,7 @@
 
 int graphics_init();
 void graphics_clean();
-int graphics_update(void (*on_update)(uint32_t *));
+int graphics_draw();
+void graphics_set_pixel(int x, int y, int color);
 
 #endif /* GRAPHICS_H */

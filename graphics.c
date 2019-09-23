@@ -54,12 +54,8 @@ int graphics_init() {
   return 0;
 }
 
-int graphics_update(void (*on_update)(uint32_t *))
+int graphics_draw()
 {
-  // next_time = SDL_GetTicks() + TICK_INTERVAL;
-
-  on_update(state.pixels);
-
   SDL_UpdateTexture(state.texture, NULL, state.pixels, SCREEN_WIDTH * sizeof(uint32_t));
 
   if (SDL_RenderClear(state.renderer) != 0)
@@ -76,9 +72,6 @@ int graphics_update(void (*on_update)(uint32_t *))
 
   SDL_RenderPresent(state.renderer);
 
-  // SDL_Delay(time_left());
-  // next_time += TICK_INTERVAL;
-
   return 0;
 }
 
@@ -87,4 +80,9 @@ void graphics_clean() {
   SDL_DestroyRenderer(state.renderer);
   SDL_DestroyWindow(state.window);
   SDL_Quit();
+}
+
+void graphics_set_pixel(int x, int y, int color)
+{
+  state.pixels[y * SCREEN_WIDTH + x] = COLORS[color];
 }
