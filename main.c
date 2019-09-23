@@ -62,14 +62,14 @@ int core_run(void (*on_update)(uint32_t *)) {
       SDL_WINDOWPOS_UNDEFINED,
       SCREEN_WIDTH,
       SCREEN_HEIGHT,
-      0);
+      SDL_WINDOW_OPENGL);
 
   if(!core.window) {
     fprintf(stderr, "SDL_CreateWindow failed: %s\n", SDL_GetError());
     return 1;
   }
 
-  core.renderer = SDL_CreateRenderer(core.window, -1, 0);
+  core.renderer = SDL_CreateRenderer(core.window, -1, SDL_RENDERER_ACCELERATED);
 
   if(!core.renderer) {
     fprintf(stderr, "SDL_CreateRenderer failed: %s\n", SDL_GetError());
@@ -80,7 +80,7 @@ int core_run(void (*on_update)(uint32_t *)) {
       core.renderer,
       SDL_PIXELFORMAT_RGBA8888,
       SDL_TEXTUREACCESS_STATIC,
-      SCREEN_WIDTH, 
+      SCREEN_WIDTH,
       SCREEN_HEIGHT);
 
   if(!core.texture) {
@@ -156,4 +156,3 @@ int main()
 {
   return core_run(update);
 }
-
