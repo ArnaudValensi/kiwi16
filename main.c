@@ -19,7 +19,7 @@ void Draw() {
 }
 
 int main() {
-    SDL_Event e;
+    SDL_Event event;
     bool quit = false;
 
     if (RendererInit()) {
@@ -27,8 +27,12 @@ int main() {
     }
 
     while (!quit) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                quit = true;
+            }
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
                 quit = true;
             }
         }
