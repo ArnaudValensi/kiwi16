@@ -1,3 +1,6 @@
 print("[LUA] Hello World")
 
-setpixel(1, 2, 3)
+function update()
+  print("[LUA] update")
+  setpixel(1, 2, 3)
+end

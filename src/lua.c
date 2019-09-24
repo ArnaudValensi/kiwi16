@@ -11,6 +11,21 @@ int LuaSetPixel(lua_State *L) {
     return 0;
 }
 
+void CallLuaUpdate(lua_State *L) {
+    lua_getglobal(L, "update");
+
+    if (lua_isfunction(L, -1)) {
+        if (lua_pcall(L, 0, 0, 0)) {
+            fprintf(stderr, "[C - call 'update()'] %s\n", lua_tostring(L, -1));
+
+            // Pop error message from the stack.
+            lua_pop(L, 1);
+        }
+    } else {
+        printf("[C] 'update()' does not exist\n");
+    }
+}
+
 void LuaRun() {
     char buff[256];
     int error;
@@ -22,11 +37,14 @@ void LuaRun() {
     lua_register(L, "setpixel", LuaSetPixel);
 
     if (luaL_dofile(L, "main.lua")) {
-        fprintf(stderr, "[Lua loader] %s\n", lua_tostring(L, -1));
+        // Display the error on top of the stack.
+        fprintf(stderr, "[C - Lua loader] %s\n", lua_tostring(L, -1));
 
         // Pop error message from the stack.
         lua_pop(L, 1);
     }
+
+    CallLuaUpdate(L);
 
     lua_close(L);
 }
