@@ -21,8 +21,8 @@ int RendererInit() {
     state.window = SDL_CreateWindow("My application",
                                     SDL_WINDOWPOS_UNDEFINED,
                                     SDL_WINDOWPOS_UNDEFINED,
-                                    SCREEN_WIDTH,
-                                    SCREEN_HEIGHT,
+                                    SCREEN_WIDTH * SCREEN_SCALE,
+                                    SCREEN_HEIGHT * SCREEN_SCALE,
                                     SDL_WINDOW_OPENGL);
 
     if (!state.window) {
