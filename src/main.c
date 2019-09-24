@@ -18,6 +18,17 @@ void Draw() {
     }
 }
 
+void WaitForNextTick() {
+    static uint32_t nextTickTime = TICK_INTERVAL_IN_MS;
+
+    uint32_t now = SDL_GetTicks();
+    if (nextTickTime > now) {
+        SDL_Delay(nextTickTime - now);
+    }
+
+    nextTickTime += TICK_INTERVAL_IN_MS;
+}
+
 int main() {
     SDL_Event event;
     bool quit = false;
@@ -26,7 +37,6 @@ int main() {
         return 1;
     }
 
-    uint32_t nextTickTime = SDL_GetTicks() + TICK_INTERVAL_IN_MS;
     while (!quit) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -44,12 +54,7 @@ int main() {
             return 1;
         }
 
-        uint32_t now = SDL_GetTicks();
-        if (nextTickTime > now) {
-            SDL_Delay(nextTickTime - now);
-        }
-
-        nextTickTime += TICK_INTERVAL_IN_MS;
+        WaitForNextTick();
     }
 
     RendererClean();
