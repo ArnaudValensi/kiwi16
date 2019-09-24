@@ -11,8 +11,6 @@ static int LuaSetPixel(lua_State *L) {
     int y = (int)lua_tointeger(L, 2);
     int color = (int)lua_tointeger(L, 3);
 
-    printf("[C] LuaSetPixel, x: %d, y: %d, color: %d\n", x, y, color);
-
     ApiSetPixel(x, y, color);
 
     return 0;
@@ -29,7 +27,7 @@ void LuaCallScriptUpdate() {
             lua_pop(L, 1);
         }
     } else {
-        printf("[C] 'update()' does not exist\n");
+        fprintf(stderr, "[C] 'update()' does not exist\n");
     }
 }
 

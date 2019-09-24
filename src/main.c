@@ -6,19 +6,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-// float t = 0;
-// void Draw() {
-//     t += 0.02;
-
-//     for (int i = 0; i < 1000; i++) {
-//         int x = rand() % SCREEN_WIDTH;
-//         int y = rand() % SCREEN_HEIGHT;
-//         int c = (int)(x / 16.0 + y / 32.0 + t) % 6 + 11;
-
-//         RendererSetPixel(x, y, c);
-//     }
-// }
-
 void WaitForNextTick() {
     static uint32_t nextTickTime = TICK_INTERVAL_IN_MS;
 
