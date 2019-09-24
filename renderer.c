@@ -1,16 +1,16 @@
 #include "config.h"
 #include <SDL2/SDL.h>
 
-typedef struct _State {
+typedef struct state_t {
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Texture *texture;
     uint32_t pixels[SCREEN_SIZE];
-} State;
+} state_t;
 
-static State state;
+static state_t state;
 
-int graphics_init() {
+int RendererInit() {
     uint32_t next_time;
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -53,7 +53,7 @@ int graphics_init() {
     return 0;
 }
 
-int graphics_draw() {
+int RendererDraw() {
     SDL_UpdateTexture(state.texture, NULL, state.pixels, SCREEN_WIDTH * sizeof(uint32_t));
 
     if (SDL_RenderClear(state.renderer) != 0) {
@@ -71,13 +71,13 @@ int graphics_draw() {
     return 0;
 }
 
-void graphics_clean() {
+void RendererClean() {
     SDL_DestroyTexture(state.texture);
     SDL_DestroyRenderer(state.renderer);
     SDL_DestroyWindow(state.window);
     SDL_Quit();
 }
 
-void graphics_set_pixel(int x, int y, int color) {
+void RendererSetPixel(int x, int y, int color) {
     state.pixels[y * SCREEN_WIDTH + x] = COLORS[color];
 }

@@ -1,12 +1,12 @@
 #include "config.h"
-#include "graphics.h"
+#include "renderer.h"
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 
 float t = 0;
-void draw() {
+void Draw() {
     t += 0.02;
 
     for (int i = 0; i < 1000; i++) {
@@ -14,7 +14,7 @@ void draw() {
         int y = rand() % SCREEN_HEIGHT;
         int c = (int)(x / 16.0 + y / 32.0 + t) % 6 + 11;
 
-        graphics_set_pixel(x, y, c);
+        RendererSetPixel(x, y, c);
     }
 }
 
@@ -22,7 +22,7 @@ int main() {
     SDL_Event e;
     bool quit = false;
 
-    if (graphics_init()) {
+    if (RendererInit()) {
         return 1;
     }
 
@@ -33,14 +33,14 @@ int main() {
             }
         }
 
-        draw();
+        Draw();
 
-        if (graphics_draw()) {
+        if (RendererDraw()) {
             return 1;
         }
     }
 
-    graphics_clean();
+    RendererClean();
 
     return 0;
 }
