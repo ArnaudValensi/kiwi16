@@ -6,18 +6,18 @@
 #include <stdint.h>
 #include <stdio.h>
 
-float t = 0;
-void Draw() {
-    t += 0.02;
+// float t = 0;
+// void Draw() {
+//     t += 0.02;
 
-    for (int i = 0; i < 1000; i++) {
-        int x = rand() % SCREEN_WIDTH;
-        int y = rand() % SCREEN_HEIGHT;
-        int c = (int)(x / 16.0 + y / 32.0 + t) % 6 + 11;
+//     for (int i = 0; i < 1000; i++) {
+//         int x = rand() % SCREEN_WIDTH;
+//         int y = rand() % SCREEN_HEIGHT;
+//         int c = (int)(x / 16.0 + y / 32.0 + t) % 6 + 11;
 
-        RendererSetPixel(x, y, c);
-    }
-}
+//         RendererSetPixel(x, y, c);
+//     }
+// }
 
 void WaitForNextTick() {
     static uint32_t nextTickTime = TICK_INTERVAL_IN_MS;
@@ -34,11 +34,11 @@ int main() {
     SDL_Event event;
     bool quit = false;
 
-    LuaRun();
-
     if (RendererInit()) {
         return 1;
     }
+
+    LuaInit();
 
     while (!quit) {
         while (SDL_PollEvent(&event)) {
@@ -51,7 +51,7 @@ int main() {
             }
         }
 
-        Draw();
+        LuaCallScriptUpdate();
 
         if (RendererDraw()) {
             return 1;
@@ -60,6 +60,7 @@ int main() {
         WaitForNextTick();
     }
 
+    LuaClean();
     RendererClean();
 
     return 0;

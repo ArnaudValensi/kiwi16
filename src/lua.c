@@ -1,17 +1,24 @@
+#include "lua.h"
+#include "api.h"
 #include <lua/lauxlib.h>
 #include <lua/lua.h>
 #include <lua/lualib.h>
 
-int LuaSetPixel(lua_State *L) {
+static lua_State *L;
+
+static int LuaSetPixel(lua_State *L) {
     int x = lua_tointeger(L, 1);
     int y = (int)lua_tointeger(L, 2);
     int color = (int)lua_tointeger(L, 3);
 
     printf("[C] LuaSetPixel, x: %d, y: %d, color: %d\n", x, y, color);
+
+    ApiSetPixel(x, y, color);
+
     return 0;
 }
 
-void CallLuaUpdate(lua_State *L) {
+void LuaCallScriptUpdate() {
     lua_getglobal(L, "update");
 
     if (lua_isfunction(L, -1)) {
@@ -26,10 +33,11 @@ void CallLuaUpdate(lua_State *L) {
     }
 }
 
-void LuaRun() {
+void LuaInit() {
     char buff[256];
     int error;
-    lua_State *L = luaL_newstate();
+
+    L = luaL_newstate();
 
     // Opens the standard libraries.
     luaL_openlibs(L);
@@ -43,8 +51,9 @@ void LuaRun() {
         // Pop error message from the stack.
         lua_pop(L, 1);
     }
+}
 
-    CallLuaUpdate(L);
-
+void LuaClean() {
     lua_close(L);
+    L = NULL;
 }
