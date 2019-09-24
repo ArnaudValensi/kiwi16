@@ -1,5 +1,5 @@
-#include <stdint.h>
 #include "config.h"
+#include <stdint.h>
 
 const uint32_t COLORS[] = {
     0x1a1c2cff,
