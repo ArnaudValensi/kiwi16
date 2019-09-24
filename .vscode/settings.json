@@ -4,6 +4,7 @@
     ".env-test": "dotenv",
     "config.h": "c",
     "lauxlib.h": "c",
-    "lualib.h": "c"
+    "lualib.h": "c",
+    "lua.h": "c"
   }
 }

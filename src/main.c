@@ -1,9 +1,7 @@
 #include "config.h"
+#include "lua.h"
 #include "renderer.h"
 #include <SDL2/SDL.h>
-#include <lua/lauxlib.h>
-#include <lua/lua.h>
-#include <lua/lualib.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -35,7 +33,8 @@ void WaitForNextTick() {
 int main() {
     SDL_Event event;
     bool quit = false;
-    lua_State *L = luaL_newstate();
+
+    LuaRun();
 
     if (RendererInit()) {
         return 1;

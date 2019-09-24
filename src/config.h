@@ -1,5 +1,5 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef KW_CONFIG_H
+#define KW_CONFIG_H
 
 #include <stdint.h>
 
@@ -11,4 +11,4 @@
 
 extern const uint32_t COLORS[];
 
-#endif /* CONFIG_H */
+#endif /* KW_CONFIG_H */
