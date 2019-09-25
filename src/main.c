@@ -1,4 +1,5 @@
 #include "config.h"
+#include "kiwios.h"
 #include "lua.h"
 #include "renderer.h"
 #include <SDL2/SDL.h>
@@ -26,6 +27,7 @@ int main() {
     }
 
     LuaInit();
+    KiwiOsInit();
 
     while (!quit) {
         while (SDL_PollEvent(&event)) {
@@ -38,7 +40,8 @@ int main() {
             }
         }
 
-        LuaCallScriptUpdate();
+        // LuaCallScriptUpdate();
+        KiwiOsUpdate();
 
         if (RendererDraw()) {
             return 1;
@@ -47,6 +50,7 @@ int main() {
         WaitForNextTick();
     }
 
+    KiwiOsClean();
     LuaClean();
     RendererClean();
 

@@ -1,5 +1,6 @@
 #include "config.h"
 #include <SDL2/SDL.h>
+#include <string.h>
 
 typedef struct state_t {
     SDL_Window *window;
@@ -80,4 +81,12 @@ void RendererClean() {
 
 void RendererSetPixel(int x, int y, int color) {
     state.pixels[y * SCREEN_WIDTH + x] = COLORS[color];
+}
+
+void RendererSetPixelRect(int x, int y, int width, int height, int color) {
+    for (int i = x; i < x + width; i++) {
+        for (int j = y; j < y + height; j++) {
+            state.pixels[j * SCREEN_WIDTH + i] = COLORS[color];
+        }
+    }
 }
