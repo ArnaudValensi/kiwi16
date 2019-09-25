@@ -23,8 +23,8 @@ kiwi
 *.pch
 
 # Libraries
-*.lib
-*.a
+# *.lib
+# *.a
 *.la
 *.lo
 
@@ -32,7 +32,7 @@ kiwi
 *.dll
 *.so
 *.so.*
-*.dylib
+# *.dylib
 
 # Executables
 *.exe
