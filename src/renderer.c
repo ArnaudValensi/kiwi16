@@ -42,10 +42,15 @@ int RendererInit() {
 
     SDL_SetRenderDrawColor(state.renderer, 255, 255, 255, 255);
 
-    // SDL_TEXTUREACCESS_STREAMING ?
+    if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0")) {
+        fprintf(stderr, "Warning: Cannot use nearest pixel sampling for texture scaling.\n");
+    }
+
+    // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
     state.texture = SDL_CreateTexture(state.renderer,
                                       SDL_PIXELFORMAT_RGBA8888,
-                                      SDL_TEXTUREACCESS_STATIC,
+                                      SDL_TEXTUREACCESS_STREAMING,
                                       SCREEN_WIDTH,
                                       SCREEN_HEIGHT);
 
