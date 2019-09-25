@@ -5,6 +5,7 @@
     "config.h": "c",
     "lauxlib.h": "c",
     "lualib.h": "c",
-    "lua.h": "c"
+    "lua.h": "c",
+    "sdl_image.h": "c"
   }
 }

@@ -8,3 +8,7 @@ void ApiSetPixel(int x, int y, int color) {
 void ApiSetPixelRect(int x, int y, int width, int height, int color) {
     RendererSetPixelRect(x, y, width, height, color);
 }
+
+void ApiDrawText(char *text, int x, int y, int color) {
+    RendererDrawText(text, x, y, color);
+}

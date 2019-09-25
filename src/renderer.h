@@ -6,5 +6,6 @@ void RendererClean();
 int RendererDraw();
 void RendererSetPixel(int x, int y, int color);
 void RendererSetPixelRect(int x, int y, int width, int height, int color);
+void RendererDrawText(char *text, int x, int y, int color);
 
 #endif /* KW_RENDERER_H */

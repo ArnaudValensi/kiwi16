@@ -3,5 +3,6 @@
 
 void ApiSetPixel(int x, int y, int color);
 void ApiSetPixelRect(int x, int y, int width, int height, int color);
+void ApiDrawText(char *text, int x, int y, int color);
 
 #endif /* KW_API_H */

@@ -1,5 +1,5 @@
 all:
-	gcc ./src/*.c -o kiwi -I include -L lib -l SDL2-2.0.0 -l lua53 -g && ./kiwi
+	gcc ./src/*.c -o kiwi -Iinclude -Llib -llua53 -lSDL2 -lSDL2_image -g  && ./kiwi
 
 clean:
 	rm index.html index.js index.wasm kiwi
