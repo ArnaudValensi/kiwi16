@@ -1,0 +1,9 @@
+﻿---
+BasedOnStyle: LLVM
+AllowShortFunctionsOnASingleLine: None
+BinPackArguments: 'false'
+BinPackParameters: 'false'
+ColumnLimit: '100'
+IndentWidth: '4'
+
+...
