@@ -125,8 +125,9 @@ static inline int GetSurfacePixelColor(int x, int y, SDL_Surface *surface) {
     return *(Uint32 *)p;
 }
 
-static void CopyFromSurfaceToPixelBuffer(
-    SDL_Surface *surface, SDL_Rect *source, int destStartX, int destStartY, int color) {
+// Replace the color by colorIndex if its value is not -1.
+static void CopyFromSurfacePartToPixelBuffer(
+    SDL_Surface *surface, SDL_Rect *source, int destStartX, int destStartY, int colorIndex) {
     int sourceStartX = source->x;
     int sourceStartY = source->y;
     int sourceEndX = source->x + source->w;
@@ -148,9 +149,10 @@ static void CopyFromSurfaceToPixelBuffer(
             if (alpha == 0xff) {
                 int destX = destStartX + i;
                 int destY = destStartY + j;
+                int color = colorIndex == -1 ? pixelColor : COLORS[colorIndex];
 
                 if (destX < SCREEN_WIDTH && destY < SCREEN_HEIGHT) {
-                    state.pixels[destY * SCREEN_WIDTH + destX] = COLORS[color];
+                    state.pixels[destY * SCREEN_WIDTH + destX] = color;
                 }
             }
 
@@ -163,7 +165,7 @@ static void CopyFromSurfaceToPixelBuffer(
     }
 }
 
-void RendererDrawText(char *text, int x, int y, int color) {
+void RendererDrawText(char *text, int x, int y, int colorIndex) {
     for (size_t i = 0; text[i] != '\0'; i++) {
         int c = (int)text[i];
 
@@ -180,7 +182,35 @@ void RendererDrawText(char *text, int x, int y, int color) {
             sourceRect.w = 3;
             sourceRect.h = 5;
 
-            CopyFromSurfaceToPixelBuffer(state.fontAtlas, &sourceRect, destX, y, color);
+            CopyFromSurfacePartToPixelBuffer(state.fontAtlas, &sourceRect, destX, y, colorIndex);
         }
     }
+}
+
+static void CopyFromSurfaceToPixelBuffer(SDL_Surface *surface, int destStartX, int destStartY) {
+    SDL_Rect sourceRect;
+
+    sourceRect.x = 0;
+    sourceRect.y = 0;
+    sourceRect.w = surface->w;
+    sourceRect.h = surface->h;
+
+    CopyFromSurfacePartToPixelBuffer(surface, &sourceRect, destStartX, destStartY, -1);
+}
+
+void *RendererLoadSprite(char *spritePath) {
+    SDL_Surface *fontSurface = IMG_Load(spritePath);
+
+    if (!fontSurface) {
+        fprintf(stderr, "IMG_Load failed: %s\n", IMG_GetError());
+        return NULL;
+    }
+
+    return fontSurface;
+}
+
+// TODO: Free sprite function.
+
+void RendererDrawSprite(void *sprite, int x, int y) {
+    CopyFromSurfaceToPixelBuffer(sprite, x, y);
 }

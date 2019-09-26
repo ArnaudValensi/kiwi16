@@ -27,7 +27,10 @@ int main() {
     }
 
     LuaInit();
-    KiwiOsInit();
+
+    if (KiwiOsInit()) {
+        return 1;
+    }
 
     while (!quit) {
         while (SDL_PollEvent(&event)) {

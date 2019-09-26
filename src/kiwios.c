@@ -1,8 +1,19 @@
 #include "kiwios.h"
 #include "api.h"
 #include "config.h"
+#include <stdio.h>
 
-void KiwiOsInit() {
+static void *spriteButtonNew;
+
+int KiwiOsInit() {
+    spriteButtonNew = ApiLoadSprite("./asset/button-new.png");
+
+    if (spriteButtonNew == NULL) {
+        fprintf(stderr, "ApiLoadSprite(\"./asset/button-new.png\") error\n");
+        return 1;
+    }
+
+    return 0;
 }
 
 void KiwiOsUpdate() {
@@ -25,6 +36,8 @@ void KiwiOsUpdate() {
 
     // Title
     ApiDrawText("Home", 120, 2, 1);
+
+    ApiDrawSprite(spriteButtonNew, 18, 24);
 }
 
 void KiwiOsClean() {

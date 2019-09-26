@@ -1,7 +1,7 @@
 #ifndef KW_KIWIOS_H
 #define KW_KIWIOS_H
 
-void KiwiOsInit();
+int KiwiOsInit();
 void KiwiOsUpdate();
 void KiwiOsClean();
 

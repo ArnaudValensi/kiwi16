@@ -12,3 +12,11 @@ void ApiSetPixelRect(int x, int y, int width, int height, int color) {
 void ApiDrawText(char *text, int x, int y, int color) {
     RendererDrawText(text, x, y, color);
 }
+
+void *ApiLoadSprite(char *spritePath) {
+    return RendererLoadSprite(spritePath);
+}
+
+void ApiDrawSprite(void *sprite, int x, int y) {
+    RendererDrawSprite(sprite, x, y);
+}

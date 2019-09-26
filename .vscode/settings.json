@@ -6,6 +6,7 @@
     "lauxlib.h": "c",
     "lualib.h": "c",
     "lua.h": "c",
-    "sdl_image.h": "c"
+    "sdl_image.h": "c",
+    "string.h": "c"
   }
 }
