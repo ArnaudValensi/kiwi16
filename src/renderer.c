@@ -14,8 +14,6 @@ typedef struct state_t {
 static state_t state;
 
 int RendererInit() {
-    uint32_t next_time;
-
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
         return 1;

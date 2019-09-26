@@ -32,9 +32,6 @@ void LuaCallScriptUpdate() {
 }
 
 void LuaInit() {
-    char buff[256];
-    int error;
-
     L = luaL_newstate();
 
     // Opens the standard libraries.
