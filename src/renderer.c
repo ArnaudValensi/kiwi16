@@ -197,7 +197,9 @@ static void CopyFromSurfaceToPixelBuffer(SDL_Surface *surface, int destStartX, i
 }
 
 void *RendererLoadSprite(char *spritePath) {
-    SDL_Surface *fontSurface = IMG_Load(spritePath);
+    SDL_Surface *tmpSurface = IMG_Load(spritePath);
+    SDL_Surface *fontSurface = SDL_ConvertSurfaceFormat(tmpSurface, SDL_PIXELFORMAT_RGBA8888, 0);
+    SDL_FreeSurface(tmpSurface);
 
     if (!fontSurface) {
         fprintf(stderr, "IMG_Load failed: %s\n", IMG_GetError());
