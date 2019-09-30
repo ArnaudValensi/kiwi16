@@ -1,5 +1,5 @@
 all: build
-	./kiwi init
+	./kiwi dev
 
 build:
 	gcc ./src/*.c ./src/commands/*.c -o kiwi -Iinclude -Llib -llua53 -lSDL2 -lSDL2_image -Wall -Wextra -Werror -g
