@@ -1,0 +1,12 @@
+Kiwi fantasy console
+
+USAGE:
+    kiwi [OPTIONS] [SUBCOMMAND]
+
+OPTIONS:
+    -V, --version           Print version info and exit
+    -h, --help              Prints help information
+
+Kiwi commands are:
+    init        Create a new kiwi game in an existing directory
+
