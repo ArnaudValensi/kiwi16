@@ -28,8 +28,7 @@ int HandleArgs(int argc, char **argv) {
     }
 
     if (strcmp("init", argv[1]) == 0) {
-        CommandInit();
-        return 0;
+        return CommandInit();
     }
 
     printf(kiwiUsageString);
