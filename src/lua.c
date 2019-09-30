@@ -3,8 +3,10 @@
 #include <lua/lauxlib.h>
 #include <lua/lua.h>
 #include <lua/lualib.h>
+#include <stdbool.h>
 
 static lua_State *L;
+static bool isInit = false;
 
 static int LuaSetPixel(lua_State *L) {
     int x = lua_tointeger(L, 1);
@@ -16,7 +18,30 @@ static int LuaSetPixel(lua_State *L) {
     return 0;
 }
 
+void LuaInit() {
+    L = luaL_newstate();
+
+    // Opens the standard libraries.
+    luaL_openlibs(L);
+
+    lua_register(L, "setpixel", LuaSetPixel);
+
+    if (luaL_dofile(L, "start.lua")) {
+        // Display the error on top of the stack.
+        fprintf(stderr, "[C - Lua loader] %s\n", lua_tostring(L, -1));
+
+        // Pop error message from the stack.
+        lua_pop(L, 1);
+    }
+
+    isInit = true;
+}
+
 void LuaCallScriptUpdate() {
+    if (!isInit) {
+        LuaInit();
+    }
+
     lua_getglobal(L, "update");
 
     if (lua_isfunction(L, -1)) {
@@ -31,24 +56,12 @@ void LuaCallScriptUpdate() {
     }
 }
 
-void LuaInit() {
-    L = luaL_newstate();
-
-    // Opens the standard libraries.
-    luaL_openlibs(L);
-
-    lua_register(L, "setpixel", LuaSetPixel);
-
-    if (luaL_dofile(L, "main.lua")) {
-        // Display the error on top of the stack.
-        fprintf(stderr, "[C - Lua loader] %s\n", lua_tostring(L, -1));
-
-        // Pop error message from the stack.
-        lua_pop(L, 1);
-    }
-}
-
 void LuaClean() {
+    if (!isInit) {
+        return;
+    }
+
     lua_close(L);
     L = NULL;
+    isInit = false;
 }

@@ -20,12 +20,12 @@ void WaitForNextTick() {
 int CommandDev() {
     SDL_Event event;
     bool quit = false;
+    bool displayDevTools = false;
+    bool wasDisplayingDevToolsLastFrame = false;
 
     if (RendererInit()) {
         return 1;
     }
-
-    LuaInit();
 
     if (KiwiOsInit()) {
         return 1;
@@ -40,10 +40,22 @@ int CommandDev() {
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
                 quit = true;
             }
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
+                displayDevTools = !displayDevTools;
+            }
         }
 
-        // LuaCallScriptUpdate();
-        KiwiOsUpdate();
+        if (displayDevTools) {
+            if (!wasDisplayingDevToolsLastFrame) {
+                LuaClean();
+            }
+            KiwiOsUpdate();
+            wasDisplayingDevToolsLastFrame = true;
+        } else {
+            LuaCallScriptUpdate();
+            wasDisplayingDevToolsLastFrame = false;
+        }
 
         if (RendererDraw()) {
             return 1;

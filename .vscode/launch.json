@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Debug",
       "program": "${workspaceFolder}/kiwi",
-      "args": [],
+      "args": ["dev"],
       "cwd": "${workspaceFolder}"
     }
   ]
