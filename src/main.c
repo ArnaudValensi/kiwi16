@@ -1,24 +1,13 @@
 #include "commands/dev.h"
 #include "commands/init.h"
+#include "generated_usage.h"
 #include <stdio.h>
 #include <string.h>
-
-const char kiwiUsageString[] = "Kiwi fantasy console\n"
-                               "\n"
-                               "USAGE:\n"
-                               "    kiwi [OPTIONS] [SUBCOMMAND]\n"
-                               "\n"
-                               "OPTIONS:\n"
-                               "    -V, --version           Print version info and exit\n"
-                               "    -h, --help              Prints help information\n"
-                               "\n"
-                               "Kiwi commands are:\n"
-                               "    init        Create a new kiwi game in an existing directory\n";
 
 int HandleArgs(int argc, char **argv) {
     (void)argv;
     if (argc == 1) {
-        printf(kiwiUsageString);
+        printf(USAGE);
         return 1;
     }
 
@@ -28,7 +17,7 @@ int HandleArgs(int argc, char **argv) {
         return CommandDev();
     }
 
-    printf(kiwiUsageString);
+    printf(USAGE);
     return 1;
 }
 

@@ -9,4 +9,3 @@ OPTIONS:
 
 Kiwi commands are:
     init        Create a new kiwi game in an existing directory
-
