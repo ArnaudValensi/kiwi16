@@ -1,3 +1,5 @@
+# A pico-8 like virtual console in C and Lua
+
 ## Notes
 
 Lua lib downloaded here: http://lua-users.org/wiki/LuaBinaries
